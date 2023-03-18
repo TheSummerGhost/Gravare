@@ -41,3 +41,21 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 3704225607
+    locked: 0
+  - name: Scenery
+    uniqueID: 2342751953
+    locked: 0
+  - name: Platforms
+    uniqueID: 3365250931
+    locked: 0
+  - name: Player
+    uniqueID: 2265184981
+    locked: 0
+  - name: FrontScenery
+    uniqueID: 1020796375
+    locked: 0
+  - name: Foreground
+    uniqueID: 4193991079
+    locked: 0
