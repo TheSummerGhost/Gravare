@@ -373,6 +373,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void DisableFlip() 
+    {
+        canFlip = false;
+    }
+
+    public void EnableFlip()
+    {
+        canFlip = true;
+    }
+
     private void CheckLedgeClimb()
     {
         if (ledgeDetected && !canClimbLedge)
@@ -411,7 +421,6 @@ public class PlayerController : MonoBehaviour
         ledgeDetected = false;
         anim.SetBool("canClimbLedge", canClimbLedge);
     }
-
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
