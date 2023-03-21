@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     private float dashTimeLeft;
     private float lastImageXpos;
     private float lastDash = -100;
+    private float knockbackStartTime;
+    [SerializeField] private float knockbackDuration;
 
     public LayerMask whatIsGround;
 
@@ -44,8 +46,9 @@ public class PlayerController : MonoBehaviour
     private bool canClimbLedge = false;
     private bool ledgeDetected;
     private bool isDashing;
+    private bool knockback;
 
-
+    [SerializeField] private Vector2 knockbackSpeed;
 
     public float movementSpeed = 10.0f;
     public float jumpForce = 16.0f;
@@ -76,7 +79,7 @@ public class PlayerController : MonoBehaviour
 
     public int amountOfJumps = 1;
 
-
+    #region DefaultFunctions
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -103,9 +106,10 @@ public class PlayerController : MonoBehaviour
         CheckSurroundings();
         // Debug.Log(canNormalJump);
         // Debug.Log(rb.velocity.y);
-        Debug.Log(isWalking);
+        // Debug.Log(isWalking);
     }
 
+    #endregion
     private void CheckIfCanJump()
     {
         if (isGrounded && rb.velocity.y <= 0.01f)
@@ -179,6 +183,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    #region Dash
     private void AttemptToDash()
     {
         isDashing = true;
@@ -218,6 +223,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region WallSliding
     private void CheckIfWallSliding()
     {
         if (isTouchingWall && movementInputDirection == facingDirection && rb.velocity.y < 0 && !canClimbLedge)
@@ -230,6 +238,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    #endregion
     private void UpdateAnimations()
     {
         anim.SetBool("isWalking", isWalking);
@@ -238,14 +247,32 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("isWallSliding", isWallSliding);
     }
 
+    #region Knockback
+    private void Knockback(int direction)
+    {
+        knockback = true;
+        knockbackStartTime = Time.time;
+        rb.velocity = new Vector2(knockbackSpeed.x * direction, knockbackSpeed.y);
+    }
+
+    private void CheckKnockback()
+    {
+        if (Time.time >= knockbackStartTime + knockbackDuration)
+        {
+            knockback = false;
+            rb.velocity = new Vector2(0.0f, rb.velocity.y);
+        }
+    }
+
+    #endregion
     private void ApplyMovement()
     {
 
-        if (!isGrounded && !isWallSliding && movementInputDirection == 0)
+        if (!isGrounded && !isWallSliding && movementInputDirection == 0 && !knockback)
         {
             rb.velocity = new Vector2(rb.velocity.x * airDragMultiplier, rb.velocity.y);
         }
-        else if (canMove)
+        else if (canMove && !knockback)
         {
             rb.velocity = new Vector2(movementSpeed * movementInputDirection, rb.velocity.y);
         }
@@ -261,7 +288,7 @@ public class PlayerController : MonoBehaviour
 
     private void Flip()
     {
-        if (!isWallSliding && canFlip && !canClimbLedge)
+        if (!isWallSliding && canFlip && !canClimbLedge && !knockback)
         {
             facingDirection *= -1;
             isFacingRight = !isFacingRight;
@@ -290,6 +317,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    #region Jumping
     private void CheckJump()
     {
         if (jumpTimer > 0)
@@ -361,6 +390,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    #endregion
     private void CheckSurroundings()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
@@ -373,7 +403,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void DisableFlip() 
+    public void DisableFlip()
     {
         canFlip = false;
     }
@@ -426,7 +456,7 @@ public class PlayerController : MonoBehaviour
     {
         return facingDirection;
     }
-   
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);

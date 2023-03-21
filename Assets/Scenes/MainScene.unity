@@ -181,7 +181,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 146513063}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.63, y: -5.92, z: 0}
+  m_LocalPosition: {x: -12.61, y: 16.04, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -206,12 +206,24 @@ MonoBehaviour:
   movementSpeed: 3
   maxHealth: 30
   knockbackDuration: 0.1
+  lastTouchDamageTime: 0
+  touchDamageCooldown: 0
+  touchDamage: 0
+  touchDamageWidth: 0
+  touchDamageHeight: 0
   groundCheck: {fileID: 1142164317}
   wallCheck: {fileID: 1190764176}
+  touchDamageCheck: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 0
   knockbackSpeed: {x: 10, y: 5}
+  hitParticle: {fileID: 2727000468503927208, guid: 566a5c873a8481b44b737d19abdad1a0, type: 3}
+  deathChunkParticle: {fileID: 7975797641597577082, guid: f1c33148c4a0f394eac30cd01888f066, type: 3}
+  deathBloodParticle: {fileID: 1889839945838830933, guid: 99e3149410eecc343bbd6451fbbfe7e5, type: 3}
 --- !u!1 &480520088
 GameObject:
   m_ObjectHideFlags: 0
@@ -973,12 +985,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d9d1be1628612f42afc69eaa844d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  knockbackDuration: 0
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
   groundCheck: {fileID: 480520089}
   wallCheck: {fileID: 1450231155}
   ledgeCheck: {fileID: 1243506764}
+  knockbackSpeed: {x: 0, y: 0}
   movementSpeed: 9
   jumpForce: 21
   groundCheckRadius: 0.3

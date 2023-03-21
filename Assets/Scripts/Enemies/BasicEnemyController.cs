@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,19 +13,24 @@ public class BasicEnemyController : MonoBehaviour
 
     private State currentState;
 
-    [SerializeField] private float groundCheckDistance, wallCheckDistance, movementSpeed, maxHealth, knockbackDuration;
+    [SerializeField] private float groundCheckDistance, wallCheckDistance, movementSpeed, maxHealth, knockbackDuration, lastTouchDamageTime,
+    touchDamageCooldown, touchDamage, touchDamageWidth, touchDamageHeight;
 
-    [SerializeField] private Transform groundCheck, wallCheck;
+    [SerializeField] private Transform groundCheck, wallCheck, touchDamageCheck;
 
-    [SerializeField] private LayerMask whatIsGround;
+    [SerializeField] private LayerMask whatIsGround, whatIsPlayer;
 
     [SerializeField] private Vector2 knockbackSpeed;
 
+    [SerializeField] private GameObject hitParticle, deathChunkParticle, deathBloodParticle;
+
     private float currentHealth, knockbackStartTime;
+
+    private float[] attackDetails = new float[2];
 
     private int facingDirection, damageDirection;
     
-    private Vector2 movement;
+    private Vector2 movement, touchDamageBotLeft, touchDamageTopRight;
 
     private bool groundDetected, wallDetected;
 
@@ -41,6 +45,7 @@ public class BasicEnemyController : MonoBehaviour
         alive = transform.Find("Alive").gameObject;
         aliveRb = alive.GetComponent<Rigidbody2D>();
         aliveAnim = alive.GetComponent<Animator>();
+        currentHealth = maxHealth;
         facingDirection = 1;
     }
 
@@ -74,6 +79,8 @@ public class BasicEnemyController : MonoBehaviour
         groundDetected = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
         wallDetected = Physics2D.Raycast(wallCheck.position, transform.right, wallCheckDistance, whatIsGround);
 
+        CheckTouchDamage();
+
         if (!groundDetected || wallDetected) {
             Flip();
         }
@@ -98,11 +105,13 @@ public class BasicEnemyController : MonoBehaviour
         knockbackStartTime = Time.time;
         movement.Set(knockbackSpeed.x * damageDirection, knockbackSpeed.y);
         aliveRb.velocity = movement;
-        aliveAnim.SetBool("knockback", true);
+        aliveAnim.SetBool("Knockback", true);
     }
 
     private void UpdateKnockbackState()
     {
+        Debug.Log(Time.time);
+        Debug.Log((knockbackStartTime + knockbackDuration));
         if (Time.time >= knockbackStartTime + knockbackDuration)
         {
             SwitchState(State.Moving);
@@ -111,7 +120,7 @@ public class BasicEnemyController : MonoBehaviour
 
     private void ExitKnockbackState()
     {
-        aliveAnim.SetBool("knockback", false);
+        aliveAnim.SetBool("Knockback", false);
     }
 
     #endregion
@@ -120,7 +129,8 @@ public class BasicEnemyController : MonoBehaviour
 
     private void EnterDeadState()
     {
-        //Spawn chunks and blood
+        Instantiate(deathChunkParticle, alive.transform.position, deathChunkParticle.transform.rotation);
+        Instantiate(deathBloodParticle, alive.transform.position, deathBloodParticle.transform.rotation);
         Destroy(gameObject);
     }
 
@@ -140,7 +150,10 @@ public class BasicEnemyController : MonoBehaviour
 
     private void Damage(float[] attackDetails) // send message only allows one parameter so need to create array to pass two values
     {
+    
         currentHealth -= attackDetails[0]; // damage is the first index of the array
+
+        Instantiate(hitParticle, alive.transform.position, Quaternion.Euler(0.0f, 0.0f, Random.Range(0.0f, 360.0f)));
         if (attackDetails[1] > alive.transform.position.x) // if the x position of player is greater than that of enemy, then they are on the right of the enemy
         {
             damageDirection = -1;
@@ -163,6 +176,25 @@ public class BasicEnemyController : MonoBehaviour
 
     }
 
+    private void CheckTouchDamage() 
+    {
+        if (Time.time >= lastTouchDamageTime + touchDamageCooldown)
+        {
+            touchDamageBotLeft.Set(touchDamageCheck.position.x - (touchDamageWidth/2), touchDamageCheck.position.y - (touchDamageHeight/2));
+            touchDamageTopRight.Set(touchDamageCheck.position.x + (touchDamageWidth/2), touchDamageCheck.position.y + (touchDamageHeight/2));
+
+            Collider2D hit = Physics2D.OverlapArea(touchDamageBotLeft, touchDamageTopRight, whatIsPlayer);
+
+            if (hit != null) {
+                lastTouchDamageTime = Time.time;
+                attackDetails[0] = touchDamage;
+                attackDetails[1] = alive.transform.position.x;
+                hit.SendMessage("Damage", attackDetails);
+
+            }
+
+        }
+    }
     private void Flip()
     {
         facingDirection *= -1;
@@ -172,31 +204,40 @@ public class BasicEnemyController : MonoBehaviour
 
     private void SwitchState(State state)
     {
+        
         switch (currentState)
         {
             case State.Moving:
                 ExitMovingState();
+                Debug.Log("ExitMovingState");
                 break;
             case State.Knockback:
                 ExitKnockbackState();
+                Debug.Log("ExitKnockbackState");
                 break;
             case State.Dead:
                 ExitDeadState();
+                Debug.Log("ExitDeadState");
                 break;
         }
-
+        
         switch (state)
         {
             case State.Moving:
                 EnterMovingState();
+                Debug.Log("EnterMovingState");
                 break;
             case State.Knockback:
                 EnterKnockbackState();
+                Debug.Log("EnterKnockbackState");
                 break;
             case State.Dead:
                 EnterDeadState();
+                Debug.Log("EnterDeadState");
                 break;
         }        
+
+        currentState = state;
     }
 
     private void OnDrawGizmos()
