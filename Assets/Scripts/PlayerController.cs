@@ -421,6 +421,12 @@ public class PlayerController : MonoBehaviour
         ledgeDetected = false;
         anim.SetBool("canClimbLedge", canClimbLedge);
     }
+
+    public int GetFacingDirection()
+    {
+        return facingDirection;
+    }
+   
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
