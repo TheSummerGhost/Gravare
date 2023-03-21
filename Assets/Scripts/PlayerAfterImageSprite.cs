@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerAfterImageSprite : MonoBehaviour
 {
     [SerializeField]
-    private float activeTime = 0.1f;
+    private float activeTime = 0.5f;
     private float timeActivated;
     private float alpha;
     [SerializeField]
@@ -23,7 +23,7 @@ public class PlayerAfterImageSprite : MonoBehaviour
     {
         SR = GetComponent<SpriteRenderer>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        playerSR = GetComponent<SpriteRenderer>();
+        playerSR = player.GetComponent<SpriteRenderer>();
 
         alpha = alphaSet;
         SR.sprite = playerSR.sprite;

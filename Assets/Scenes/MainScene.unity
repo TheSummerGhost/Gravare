@@ -719,10 +719,10 @@ MonoBehaviour:
   ledgeClimbYOffset1: 0
   ledgeClimbXOffset2: 0.5
   ledgeClimbYOffset2: 2
-  dashTime: 0
-  dashSpeed: 0
-  distanceBetweenImages: 0
-  dashCoolDown: 0
+  dashTime: 0.2
+  dashSpeed: 50
+  distanceBetweenImages: 0.1
+  dashCoolDown: 2.5
   wallJumpDirection: {x: 1, y: 2}
   amountOfJumps: 2
 --- !u!95 &1849542695
