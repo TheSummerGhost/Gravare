@@ -12,27 +12,31 @@ public class PlayerCombatController : MonoBehaviour
 
     private float lastInputTime = Mathf.NegativeInfinity;
 
-    private float[] attackDetails = new float[2]; 
+    private float[] attackDetails = new float[2];
 
     private bool gotInput, isAttacking, isFirstAttack;
 
     private Animator anim;
 
+    private PlayerController PC;
 
-    private void Start() 
+    private PlayerStats PS;
+
+
+    private void Start()
     {
         anim = GetComponent<Animator>();
         anim.SetBool("canAttack", combatEnabled);
-
+        PC = GetComponent<PlayerController>();
+        PS = GetComponent<PlayerStats>();
     }
-
 
     private void Update()
     {
         {
             CheckCombatInput();
             CheckAttacks();
-        }   
+        }
     }
 
     private void CheckCombatInput()
@@ -50,7 +54,7 @@ public class PlayerCombatController : MonoBehaviour
 
     private void CheckAttacks()
     {
-        if (gotInput) 
+        if (gotInput)
         {
             //perform attack1
             if (!isAttacking)
@@ -86,11 +90,33 @@ public class PlayerCombatController : MonoBehaviour
 
     private void FinishAttack1()
     {
-        isAttacking = false; 
+        isAttacking = false;
         anim.SetBool("isAttacking", isAttacking);
         anim.SetBool("attack1", false);
 
     }
+
+    private void Damage(float[] attackDetails)
+    {
+        if (!PC.GetDashStatus())
+        {
+            int direction;
+
+            PS.DecreaseHealth(attackDetails[0]);
+
+            if (attackDetails[1] < transform.position.x) //enemy x position is less than player x position meaning enemy is to the left of the player meaning they are facing right when attacking
+            {
+                direction = 1;
+            }
+            else
+            {
+                direction = -1;
+            }
+
+            PC.Knockback(direction);
+        }
+    }
+
     private void OnDrawGizmos()
     {
         {

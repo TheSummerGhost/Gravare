@@ -9,7 +9,7 @@ public class PlayerAfterImageSprite : MonoBehaviour
     private float alpha;
     [SerializeField] private float alphaSet = 0.8f;
     [SerializeField] private float alphaDecay;
-    private float alphaMultiplier = 0.85f;
+    // private float alphaMultiplier = 0.85f;
 
     private Transform player;
 

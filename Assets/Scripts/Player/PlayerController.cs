@@ -98,6 +98,7 @@ public class PlayerController : MonoBehaviour
         CheckJump();
         CheckLedgeClimb();
         CheckDash();
+        CheckKnockback();
     }
 
     private void FixedUpdate()
@@ -248,7 +249,7 @@ public class PlayerController : MonoBehaviour
     }
 
     #region Knockback
-    private void Knockback(int direction)
+    public void Knockback(int direction)
     {
         knockback = true;
         knockbackStartTime = Time.time;
@@ -257,7 +258,7 @@ public class PlayerController : MonoBehaviour
 
     private void CheckKnockback()
     {
-        if (Time.time >= knockbackStartTime + knockbackDuration)
+        if (Time.time >= knockbackStartTime + knockbackDuration && knockback)
         {
             knockback = false;
             rb.velocity = new Vector2(0.0f, rb.velocity.y);
@@ -452,6 +453,10 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("canClimbLedge", canClimbLedge);
     }
 
+    public bool GetDashStatus()
+    {
+        return isDashing;
+    }
     public int GetFacingDirection()
     {
         return facingDirection;
