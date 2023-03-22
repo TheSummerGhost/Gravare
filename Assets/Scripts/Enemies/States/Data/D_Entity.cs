@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class D_Entity : ScriptableObject
 {
-    public float wallCheckDistance;
-    public float ledgeCheckDistance;
+    public float wallCheckDistance = 0.2f;
+    public float ledgeCheckDistance = 0.4f;
 
     public LayerMask whatIsGround;
 }

@@ -21,7 +21,7 @@ public class MoveState : State
         entity.SetVelocity(stateData.movementSpeed);
 
         isDetectingLedge = entity.CheckLedge();
-        isDetectingLedge = entity.CheckWall();
+        isDetectingWall = entity.CheckWall();
     }
     public override void Exit()
     {
@@ -38,7 +38,7 @@ public class MoveState : State
         base.PhysicsUpdate();
         
         isDetectingLedge = entity.CheckLedge();
-        isDetectingLedge = entity.CheckWall();        
+        isDetectingWall = entity.CheckWall();        
     }
 }
 
