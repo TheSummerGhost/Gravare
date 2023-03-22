@@ -36,6 +36,8 @@ public class E1_ChargeState : ChargeState
         }
         else if (isChargeTimeOver)
         {
+            //TODO: Transition to attack state
+            
             if (isPlayerInMinAgroRange)
             {
                 stateMachine.ChangeState(enemy.playerDetectedState);
