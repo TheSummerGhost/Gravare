@@ -205,13 +205,47 @@ MonoBehaviour:
   wallCheck: {fileID: 918747661}
   ledgeCheck: {fileID: 1894558648}
   playerCheck: {fileID: 1094705402}
+  groundCheck: {fileID: 164865684}
   idleStateData: {fileID: 11400000, guid: ad1576d558dca1f458f5045e2d9c5686, type: 2}
   moveStateData: {fileID: 11400000, guid: d1f33c58dc1692342bae66f99da035be, type: 2}
   playerDetectedData: {fileID: 11400000, guid: 0a513ceb8c75ebf499ecc6ae92040fad, type: 2}
   chargeStateData: {fileID: 11400000, guid: 199ab27a1bb2b284db4b39bf38e8e625, type: 2}
   lookForPlayerStateData: {fileID: 11400000, guid: bc417b0f8d72d354a872bb6779c27c1b, type: 2}
   meleeAttackStateData: {fileID: 11400000, guid: 619a2bad1c171334d887fad94713d4a9, type: 2}
+  stunStateData: {fileID: 11400000, guid: 5a77a4552ce58d348b39820363557493, type: 2}
+  deadStateData: {fileID: 11400000, guid: 4a3c72bd6f656a14e852670c8a826376, type: 2}
   meleeAttackPosition: {fileID: 951411930}
+--- !u!1 &164865683
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 164865684}
+  m_Layer: 6
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &164865684
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 164865683}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.95, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1645395392}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &505431080
 GameObject:
   m_ObjectHideFlags: 0
@@ -720,6 +754,7 @@ Transform:
   - {fileID: 918747661}
   - {fileID: 1094705402}
   - {fileID: 951411930}
+  - {fileID: 164865684}
   m_Father: {fileID: 146513064}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -99139,6 +99174,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6935726948273777829, guid: 06cc107bc9f1d1d409fa27116e5505b8, type: 3}
+      propertyPath: stunDamageAmount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6935726948273777833, guid: 06cc107bc9f1d1d409fa27116e5505b8, type: 3}
       propertyPath: m_RootOrder
       value: 2
