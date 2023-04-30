@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 509261681ebd40842a514eebba84709b, type: 3}
+  m_Name: Archer_BaseData
+  m_EditorClassIdentifier: 
+  maxHealth: 30
+  wallCheckDistance: 0.2
+  ledgeCheckDistance: 0.4
+  damageHopSpeed: 10
+  closeRangeActionDistance: 1
+  groundCheckRadius: 0.3
+  stunResistance: 3
+  stunRecoveryTime: 2
+  hitParticle: {fileID: 2727000468503927208, guid: 566a5c873a8481b44b737d19abdad1a0, type: 3}
+  minAgroDistance: 3
+  maxAgroDistance: 4
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 8
+  whatIsplayer:
+    serializedVersion: 2
+    m_Bits: 256

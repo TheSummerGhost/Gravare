@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy1 : Entity
+public class Crawler : Entity
 {
     public E1_IdleState idleState { get; private set; }
     public E1_MoveState moveState { get; private set; }

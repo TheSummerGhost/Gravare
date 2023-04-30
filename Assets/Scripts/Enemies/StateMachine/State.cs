@@ -9,7 +9,7 @@ public class State
 
     protected string animBoolName;
 
-    protected float startTime;
+    public float startTime { get; protected set; } //we can find the start time of one state when in another
 
     public State(Entity entity, FiniteStateMachine stateMachine, string animBoolName)
     {
