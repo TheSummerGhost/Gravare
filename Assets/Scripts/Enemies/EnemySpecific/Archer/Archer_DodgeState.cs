@@ -35,6 +35,10 @@ public class Archer_DodgeState : DodgeState
             {
                 stateMachine.ChangeState(archer.meleeAttackState);
             }
+            else if (isPlayerInMaxAgroRange && !performCloseRangeAction)
+            {
+                stateMachine.ChangeState(archer.rangedAttackState);
+            }
             else if (!isPlayerInMaxAgroRange)
             {
                 stateMachine.ChangeState(archer.lookForPlayerState);

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 509261681ebd40842a514eebba84709b, type: 3}
   m_Name: Archer_BaseData
   m_EditorClassIdentifier: 
-  maxHealth: 30
+  maxHealth: 40
   wallCheckDistance: 0.2
   ledgeCheckDistance: 0.4
   damageHopSpeed: 10
@@ -21,8 +21,8 @@ MonoBehaviour:
   stunResistance: 3
   stunRecoveryTime: 2
   hitParticle: {fileID: 2727000468503927208, guid: 566a5c873a8481b44b737d19abdad1a0, type: 3}
-  minAgroDistance: 3
-  maxAgroDistance: 4
+  minAgroDistance: 5.48
+  maxAgroDistance: 8.16
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8

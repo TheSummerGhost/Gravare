@@ -41,6 +41,10 @@ public class Archer_PlayerDetectedState : PlayerDetectedState
             }
 
         }
+        else if (performLongRangeAction)
+        {
+            stateMachine.ChangeState(archer.rangedAttackState);
+        }
         else if (!isPlayerInMaxAgroRange)
         {
             stateMachine.ChangeState(archer.lookForPlayerState);
