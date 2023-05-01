@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
 
     public Vector2 wallJumpDirection;
 
-    public int amountOfJumps = 1;
+    public int amountOfJumps = 2;
 
     #region DefaultFunctions
     void Start()
@@ -116,6 +116,7 @@ public class PlayerController : MonoBehaviour
         if (isGrounded && rb.velocity.y <= 0.01f)
         {
             amountOfJumpsLeft = amountOfJumps;
+
         }
 
         if (isTouchingWall)
@@ -374,7 +375,10 @@ public class PlayerController : MonoBehaviour
         if (canWallJump)
         {
             rb.velocity = new Vector2(rb.velocity.x, 0.0f);
-            amountOfJumpsLeft = amountOfJumps;
+            if (hasWallJumped)
+            {
+                amountOfJumpsLeft = 1;
+            }
             isWallSliding = false;
             amountOfJumpsLeft--;
             Vector2 forceToAdd = new Vector2(wallJumpForce * wallJumpDirection.x * movementInputDirection, wallJumpForce * wallJumpDirection.y);
