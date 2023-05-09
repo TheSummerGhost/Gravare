@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mono.Cecil;
 using UnityEngine;
 
 public class PlayerCombatController : MonoBehaviour
@@ -22,6 +23,8 @@ public class PlayerCombatController : MonoBehaviour
 
     private PlayerStats PS;
 
+    private PauseManager pm;
+
 
     private void Start()
     {
@@ -29,11 +32,12 @@ public class PlayerCombatController : MonoBehaviour
         anim.SetBool("canAttack", combatEnabled);
         PC = GetComponent<PlayerController>();
         PS = GetComponent<PlayerStats>();
+        pm = FindObjectOfType<PauseManager>();
     }
 
     private void Update()
     {
-        {
+        if (!pm.isPaused){
             CheckCombatInput();
             CheckAttacks();
         }

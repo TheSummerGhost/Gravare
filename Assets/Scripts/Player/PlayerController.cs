@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
 
     private Animator anim;
 
+    private PauseManager pm;
+
     private int amountOfJumpsLeft;
     private int facingDirection = 1;
     private int lastWallJumpDirection;
@@ -84,21 +86,25 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        pm = FindObjectOfType<PauseManager>();
         amountOfJumpsLeft = amountOfJumps;
         wallJumpDirection.Normalize();
     }
 
     void Update()
     {
-        CheckInput();
-        CheckMovementDirection();
-        UpdateAnimations();
-        CheckIfCanJump();
-        CheckIfWallSliding();
-        CheckJump();
-        CheckLedgeClimb();
-        CheckDash();
-        CheckKnockback();
+        if (!pm.isPaused)
+        {
+            CheckInput();
+            CheckMovementDirection();
+            UpdateAnimations();
+            CheckIfCanJump();
+            CheckIfWallSliding();
+            CheckJump();
+            CheckLedgeClimb();
+            CheckDash();
+            CheckKnockback();
+        }
     }
 
     private void FixedUpdate()
@@ -183,6 +189,7 @@ public class PlayerController : MonoBehaviour
             if (Time.time >= (lastDash + dashCoolDown))
                 AttemptToDash();
         }
+
     }
 
     #region Dash
@@ -466,6 +473,8 @@ public class PlayerController : MonoBehaviour
         return facingDirection;
     }
 
+
+       
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);

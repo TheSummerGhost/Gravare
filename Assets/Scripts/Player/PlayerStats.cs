@@ -10,13 +10,13 @@ public class PlayerStats : MonoBehaviour
 
     private float currentHealth;
 
-    private GameManager GM;
+    private LevelManager GM;
 
     private void Start()
     {
         {
             currentHealth = maxHealth;
-            GM = GameObject.Find("GameManager").GetComponent<GameManager>();
+            GM = FindObjectOfType<LevelManager>();
         }
     }
 
