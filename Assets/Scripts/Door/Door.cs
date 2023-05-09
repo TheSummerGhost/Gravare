@@ -12,6 +12,10 @@ public class Door : MonoBehaviour
     public void OpenDoor()
     {
         isUnlocked = true;
+        if (anim == null)
+        {
+            anim = GetComponent<Animator>();
+        }
         anim.SetBool("isUnlocked", isUnlocked);
     }
 

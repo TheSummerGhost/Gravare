@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     private int facingDirection = 1;
     private int lastWallJumpDirection;
 
+    private string identification = "1";
+
     private float movementInputDirection;
     private float jumpTimer;
     private float turnTimer;
@@ -82,6 +84,34 @@ public class PlayerController : MonoBehaviour
     public int amountOfJumps = 2;
 
     #region DefaultFunctions
+
+    private void Awake()
+    {
+        if (GameManager.instance.loading)
+        {
+            LoadVectorResult result = SaveLoadManager.LoadVector3(identification);
+            if (result.success)
+            {
+                transform.position = result.result;
+            }
+        }
+    }
+
+    private void OnEnable()
+    {
+        GameManager.instance.savePressed.AddListener(savePressed);
+    }
+
+    private void savePressed()
+    {
+        SaveLoadManager.SaveVector3(identification, transform.position);
+    }
+
+    private void OnDisable()
+    {
+        GameManager.instance.savePressed.RemoveListener(savePressed);
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();

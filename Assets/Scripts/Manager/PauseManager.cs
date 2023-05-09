@@ -49,14 +49,16 @@ public class PauseManager : MonoBehaviour
 
     public void Save ()
     {
-        SaveLoadManager.Save();
+        GameManager.instance.savePressed.Invoke();
+        SaveLoadManager.SaveLevel();
         loadButton.interactable= true;
     }
 
     public void Load ()
     {
         Time.timeScale = 1.0f;
-        SaveLoadManager.Load();
+        GameManager.instance.loading = true;
+        SaveLoadManager.LoadLevel();
     }
 
     public void Settings()

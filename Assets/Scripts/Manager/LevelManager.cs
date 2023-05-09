@@ -35,6 +35,7 @@ public class LevelManager : MonoBehaviour
             currentLevelNumber = int.Parse(currentLevel);
             levelToMoveTo = "Level" + (currentLevelNumber+1).ToString();
             Debug.Log(currentLevel + levelToMoveTo);
+            GameManager.instance.loading = false;
         }
     }
 
@@ -70,8 +71,8 @@ public class LevelManager : MonoBehaviour
         {
             if (levelToMoveTo != null || levelToMoveTo != "")
             {
-                //SceneManager.LoadScene(levelToMoveTo);
-                StartCoroutine(LoadYourAsyncScene(levelToMoveTo));
+                SceneManager.LoadScene(levelToMoveTo);
+                //StartCoroutine(LoadYourAsyncScene(levelToMoveTo));
                 //SceneManager.LoadSceneAsync(levelToMoveTo);
 
 
@@ -80,28 +81,28 @@ public class LevelManager : MonoBehaviour
         else
         {
             levelToMoveTo = "EndGame";
-            //SceneManager.LoadScene(levelToMoveTo); //Async level load
-            StartCoroutine(LoadYourAsyncScene(levelToMoveTo));
+            SceneManager.LoadScene(levelToMoveTo); //Async level load
+            //StartCoroutine(LoadYourAsyncScene(levelToMoveTo));
         }
 
     }
 
-    IEnumerator LoadYourAsyncScene(string level)
-    {
-        // The Application loads the Scene in the background as the current Scene runs.
-        // This is particularly good for creating loading screens.
-        // You could also load the Scene by using sceneBuildIndex. In this case Scene2 has
-        // a sceneBuildIndex of 1 as shown in Build Settings.
+    //IEnumerator LoadYourAsyncScene(string level)
+    //{
+    //    // The Application loads the Scene in the background as the current Scene runs.
+    //    // This is particularly good for creating loading screens.
+    //    // You could also load the Scene by using sceneBuildIndex. In this case Scene2 has
+    //    // a sceneBuildIndex of 1 as shown in Build Settings.
 
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(level);
+    //    AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(level);
 
-        // Wait until the asynchronous scene fully loads
-        while (!asyncLoad.isDone)
-        {
-            Debug.Log(asyncLoad.progress);
-            yield return null;
-        }
-    }
+    //    // Wait until the asynchronous scene fully loads
+    //    while (!asyncLoad.isDone)
+    //    {
+    //        Debug.Log(asyncLoad.progress);
+    //        yield return null;
+    //    }
+    //}
 
 
 
