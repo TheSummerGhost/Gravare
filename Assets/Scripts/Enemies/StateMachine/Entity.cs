@@ -38,7 +38,7 @@ public class Entity : MonoBehaviour
     public virtual void Awake()
     {
         aliveGO = transform.Find("Alive").gameObject;
-        EntityStateManager em = FindObjectOfType<EntityStateManager>();
+        EntitySaveLoadManager em = FindObjectOfType<EntitySaveLoadManager>();
         if (em != null)
         {
             em.entities.Add(this);
@@ -52,22 +52,25 @@ public class Entity : MonoBehaviour
             currentHealth = entityData.maxHealth; // not loading -> Default behaviour
         } else
         {
-            LoadVectorResult positionResult = SaveLoadManager.LoadVector3(identification + "_Position");
+
             LoadFloatResult currentHealthResult = SaveLoadManager.LoadFloat(identification + "_CurrentHealth");
-            
+
             if (currentHealthResult.success)
             {
                 currentHealth = currentHealthResult.result;
-            }
-            if (currentHealth <= 0)
-            {
-                gameObject.SetActive(false);
-            } else
-            {
-                if (positionResult.success) {
-                    aliveGO.transform.localPosition = positionResult.result;
+                if (currentHealth <= 0)
+                {
+                    gameObject.SetActive(false);
                 }
-            }
+                else
+                {
+                    LoadVectorResult positionResult = SaveLoadManager.LoadVector3(identification + "_Position");
+                    if (positionResult.success)
+                    {
+                        aliveGO.transform.localPosition = positionResult.result;
+                    }
+                }
+            } else { currentHealth = entityData.maxHealth; }
         }
 
         currentStunResistance = entityData.stunResistance;

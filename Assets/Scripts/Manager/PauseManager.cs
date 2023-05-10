@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PauseManager : MonoBehaviour
@@ -8,6 +9,8 @@ public class PauseManager : MonoBehaviour
     [SerializeField] private GameObject pauseScreen;
 
     [SerializeField] private Button loadButton;
+
+    [SerializeField] private Button saveButton;
 
     [SerializeField] private GameObject settingsScreen;
 
@@ -42,16 +45,26 @@ public class PauseManager : MonoBehaviour
         {
             Time.timeScale = 0.0f;
             pauseScreen.SetActive(true);
+            PlayerController player = FindObjectOfType<PlayerController>();
+            if (player == null)
+            {
+                saveButton.interactable = false;
+            }
+            else
+            {
+                saveButton.interactable = true;
+            }
         }
         else
         {
             Time.timeScale = 1.0f;
-            pauseScreen.SetActive(false);   
+            pauseScreen.SetActive(false);
         }
     }
 
     public void Save ()
     {
+        
         GameManager.instance.savePressed.Invoke();
         SaveLoadManager.SaveLevel();
         loadButton.interactable= true;
@@ -71,7 +84,7 @@ public class PauseManager : MonoBehaviour
 
     public void Quit ()
     {
-        Application.Quit();
+        SceneManager.LoadScene("MainMenu");
     }
 
 }

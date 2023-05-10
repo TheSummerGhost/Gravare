@@ -101,6 +101,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    #region saving
+
     private void OnEnable()
     {
         GameManager.instance.savePressed.AddListener(savePressed);
@@ -115,6 +117,8 @@ public class PlayerController : MonoBehaviour
     {
         GameManager.instance.savePressed.RemoveListener(savePressed);
     }
+
+    #endregion
 
     void Start()
     {

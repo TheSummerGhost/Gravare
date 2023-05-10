@@ -8,17 +8,36 @@ public class PlayerStats : MonoBehaviour
 
     [SerializeField] private GameObject deathChunkParticle, deathBloodParticle;
 
+    private string identification;
+
     private float currentHealth;
 
     private LevelManager GM;
 
-    private void Start()
+    private void Awake()
     {
+        identification = GetComponent<Identifier>().identifier;
         {
-            currentHealth = maxHealth;
+            if (!GameManager.instance.loading)
+            {
+                currentHealth = maxHealth; // default behaviour
+            } else
+            {
+                LoadFloatResult result = SaveLoadManager.LoadFloat(identification + "_currentHealth");
+                if (result.success)
+                {
+                    currentHealth = result.result;
+                } else
+                {
+                    currentHealth = maxHealth;
+                }
+            }
+
             GM = FindObjectOfType<LevelManager>();
         }
     }
+
+
 
     public void DecreaseHealth(float amount)
     {
@@ -37,4 +56,23 @@ public class PlayerStats : MonoBehaviour
         GM.Respawn();
         Destroy(gameObject);
     }
+
+    #region saving
+
+    private void OnEnable()
+    {
+        GameManager.instance.savePressed.AddListener(savePressed);
+    }
+
+    private void savePressed()
+    {
+        SaveLoadManager.SaveFloat(identification + "_currentHealth", currentHealth);
+    }
+
+    private void OnDisable()
+    {
+        GameManager.instance.savePressed.RemoveListener(savePressed);
+    }
+
+    #endregion
 }

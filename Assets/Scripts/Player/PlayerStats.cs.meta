@@ -3,7 +3,9 @@ guid: 2a2befe6429d074448b58ce4d93e9bf4
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - deathChunkParticle: {fileID: 7975797641597577082, guid: f1c33148c4a0f394eac30cd01888f066, type: 3}
+  - deathBloodParticle: {fileID: 1889839945838830933, guid: 99e3149410eecc343bbd6451fbbfe7e5, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
