@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+[RequireComponent(typeof(Identifier))]
 public class Key : MonoBehaviour
 {
-    public string identification = "key";
+    public string identification;
 
     private bool hasBeenCollected;
 
@@ -22,6 +23,9 @@ public class Key : MonoBehaviour
 
     private void Awake()
     {
+
+        identification = GetComponent<Identifier>().identifier;
+
         if (GameManager.instance.loading)
         {
             LoadBoolResult result = SaveLoadManager.LoadBool(identification);
@@ -48,7 +52,7 @@ public class Key : MonoBehaviour
     private void savePressed()
     {
         SaveLoadManager.SaveBool(identification, hasBeenCollected);
-        Debug.Log("Save Pressed");
+        //Debug.Log("Save Pressed key");
     }
 
     private void OnDisable()

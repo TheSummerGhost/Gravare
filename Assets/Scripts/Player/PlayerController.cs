@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Identifier))]
+
 public class PlayerController : MonoBehaviour
 {
 
@@ -16,7 +18,7 @@ public class PlayerController : MonoBehaviour
     private int facingDirection = 1;
     private int lastWallJumpDirection;
 
-    private string identification = "1";
+    private string identification;
 
     private float movementInputDirection;
     private float jumpTimer;
@@ -87,6 +89,8 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        identification = GetComponent<Identifier>().identifier;
+
         if (GameManager.instance.loading)
         {
             LoadVectorResult result = SaveLoadManager.LoadVector3(identification);

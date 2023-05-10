@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class Entity : MonoBehaviour
 {
     public D_Entity entityData;
     public FiniteStateMachine stateMachine;
+
+    private string identification;
     public int facingDirection { get; private set; }
 
     public Rigidbody2D rb { get; private set; }
@@ -32,14 +35,44 @@ public class Entity : MonoBehaviour
 
     protected bool isDead;
 
-    public virtual void Start()
+    public virtual void Awake()
     {
+        aliveGO = transform.Find("Alive").gameObject;
+        EntityStateManager em = FindObjectOfType<EntityStateManager>();
+        if (em != null)
+        {
+            em.entities.Add(this);
+        }
+
+        identification = GetComponent<Identifier>().identifier;
 
         facingDirection = 1;
-        currentHealth = entityData.maxHealth;
+        if (!GameManager.instance.loading)
+        {
+            currentHealth = entityData.maxHealth; // not loading -> Default behaviour
+        } else
+        {
+            LoadVectorResult positionResult = SaveLoadManager.LoadVector3(identification + "_Position");
+            LoadFloatResult currentHealthResult = SaveLoadManager.LoadFloat(identification + "_CurrentHealth");
+            
+            if (currentHealthResult.success)
+            {
+                currentHealth = currentHealthResult.result;
+            }
+            if (currentHealth <= 0)
+            {
+                gameObject.SetActive(false);
+            } else
+            {
+                if (positionResult.success) {
+                    aliveGO.transform.localPosition = positionResult.result;
+                }
+            }
+        }
+
         currentStunResistance = entityData.stunResistance;
 
-        aliveGO = transform.Find("Alive").gameObject;
+
         rb = aliveGO.GetComponent<Rigidbody2D>();
         anim = aliveGO.GetComponent<Animator>();
         atsm = aliveGO.GetComponent<AnimationToStateMachine>();
@@ -60,6 +93,12 @@ public class Entity : MonoBehaviour
                 ResetStunResistance();
             }
         }
+    }
+
+    public virtual void SaveData()
+    {
+        SaveLoadManager.SaveVector3(identification + "_Position", aliveGO.transform.localPosition);
+        SaveLoadManager.SaveFloat(identification + "_CurrentHealth", currentHealth);
     }
 
     public virtual void FixedUpdate()

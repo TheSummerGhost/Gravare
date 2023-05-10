@@ -9,12 +9,15 @@ public class PauseManager : MonoBehaviour
 
     [SerializeField] private Button loadButton;
 
+    [SerializeField] private GameObject settingsScreen;
+
     public bool isPaused { get; private set; }   
 
     
     // Start is called before the first frame update
     void Start()
     {
+        settingsScreen.SetActive(false);
         pauseScreen.SetActive(false);
         if (!PlayerPrefs.HasKey("Level"))
         {
@@ -63,7 +66,7 @@ public class PauseManager : MonoBehaviour
 
     public void Settings()
     {
-
+        settingsScreen.SetActive(true);
     }
 
     public void Quit ()

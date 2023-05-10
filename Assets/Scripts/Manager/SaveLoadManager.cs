@@ -74,6 +74,28 @@ public static class SaveLoadManager
     }
 
     #endregion
+
+    #region float
+
+    public static void SaveFloat(string entityID, float data)
+    {
+        PlayerPrefs.SetFloat("Float_" + entityID, data);
+    }
+
+    public static LoadFloatResult LoadFloat(string entityID)
+    {
+        if (PlayerPrefs.HasKey("Float_" + entityID))
+        {
+            float output = PlayerPrefs.GetFloat("Float_" + entityID);
+            return new LoadFloatResult(output, true);
+        }
+        else
+        {
+            return new LoadFloatResult(0.0f, false);
+        }
+    }
+
+    #endregion
 }
 
 public class LoadBoolResult
@@ -96,6 +118,19 @@ public class LoadVectorResult
     public bool success;
 
     public LoadVectorResult(Vector3 result, bool success)
+    {
+        this.result = result;
+        this.success = success;
+    }
+}
+
+public class LoadFloatResult
+{
+
+    public float result;
+    public bool success;
+
+    public LoadFloatResult(float result, bool success)
     {
         this.result = result;
         this.success = success;

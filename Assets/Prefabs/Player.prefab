@@ -203,6 +203,7 @@ GameObject:
   - component: {fileID: 6935726948273777834}
   - component: {fileID: 6935726948273777835}
   - component: {fileID: 6935726948273777829}
+  - component: {fileID: 8224560078268142718}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -428,6 +429,19 @@ MonoBehaviour:
   attack1Radius: 0.8
   attack1Damage: 10
   stunDamageAmount: 1
+--- !u!114 &8224560078268142718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6935726948273777836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7638fa6fe6ae274784bf6f586fd41be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  identifier: 
 --- !u!1 &6935726948672561663
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,12 +7,15 @@ using UnityEngine.UI;
 public class StartMenuManager : MonoBehaviour
 {
     [SerializeField] private Button loadButton;
+    [SerializeField] private GameObject settingsScreen;
 
     private string levelFromLoad;
 
     // Start is called before the first frame update
     void Start()
     {
+        settingsScreen.SetActive(false);
+
         if (!PlayerPrefs.HasKey("Level"))
         {
             loadButton.interactable = false;
@@ -38,7 +41,7 @@ public class StartMenuManager : MonoBehaviour
 
     public void Settings()
     {
-
+        settingsScreen.SetActive(true);
     }
 
     public void Quit()
